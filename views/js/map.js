@@ -1,11 +1,15 @@
 var map
 var pos
+var userData
 var isiPhone = navigator.userAgent.toLocaleLowerCase().match(/iPhone/i)
-var point = {}
 var thisMarker
+var point = {}
+var line = []
 var play = []
 var dinner = []
-var hostel = []
+var hotel = []
+var timer
+var continuousPositioning = false
 var userdata = {
     play: [
     [{
@@ -131,16 +135,51 @@ var node = function(arr){
   }
   return string
 }
-function initial( arr ){
+window.onload = function() {
+  $('.wel_top1_left').on('click', () => {history.go(0)})
+  if(window.localStorage.getItem("userData")){
+    userData = window.localStorage.getItem("userData")
+    $.get('/api/admin/get', {name: userData}, (data) => initial(data.data))
+  } else {
+    $('#myModal').modal({keyboard: false,backdrop: 'static',show: true})
+    $('.submit').on('click', (e) => submit(e))
+  }
+}
+function submit(e){
+  e.preventDefault();
+  var value = $('#message-text').val().trim()
+  if(!value){
+    return swal("请输入行程编号！")
+  }
+  $.get('/api/admin/get', {name: value}, (data) => check(data.data, value))
+}
+function check(data, name) {
+  if(data && data.length > 0){
+    window.localStorage.setItem('userData', name)
+    $('#myModal').modal('hide')
+    initial(data)
+  } else{
+    swal("您当前没有定制的旅行数据！")
+  }
+}
+function initial(arr){
   arr.map((item, index) => {
     var play2 = []
     item.route.map((item, index) => {
-      //item.location=eval('('+ item.location +')')
       var obj = JSON.parse(item.location)
       obj.lat = parseFloat(obj.lat)
       obj.lng = parseFloat(obj.lng)
       item.location = obj
-      play2.push(item)
+      //点数据分类
+      if(item.pointOrNot === '1' && item.category === '0'){
+        play2.push(item)
+      } else if(item.pointOrNot === '1' && item.category === '1'){
+        dinner.push(item)
+      } else if(item.pointOrNot === '1' && item.category === '2'){
+        hotel.push(item)
+      } else{
+        line.push(item)
+      }
     })
     play.push(play2)
   })
@@ -404,7 +443,33 @@ function initial( arr ){
     LCT.style.fontSize = '35px'
     centerControlDiv.append(LCT)
     LCT.addEventListener('click', function() {
-      navigator.geolocation.getCurrentPosition(complete, error)
+      if(!continuousPositioning){
+        swal({
+          title: "开启持续定位?",
+          text: "这样会比较费点哦!",
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#DD6B55",
+          confirmButtonText: "开启持续定位!",
+          cancelButtonText: "单次定位!",
+          closeOnConfirm: false,
+          closeOnCancel: false
+        },
+        function(isConfirm){
+          if (isConfirm) {
+            timer = setInterval(() => {navigator.geolocation.getCurrentPosition(complete, error)}, 10000)
+            continuousPositioning = true
+            swal("已开启持续定位!", "您可以再次点击关闭.", "success")
+          } else {
+            navigator.geolocation.getCurrentPosition(complete, error)
+            swal("本次定位已完成!")
+          }
+        })
+      } else{
+        window.clearInterval(timer)
+        continuousPositioning = false
+        swal("持续定位已关闭!", "您可以再次点击开启!", "success")
+      }
     })
     map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(centerControlDiv)
     function createInfoWindow(title) {
@@ -501,7 +566,7 @@ function initial( arr ){
       infowindow.open(map, marker)
     })
   })
-  userdata.dinner.map((item, index) => {
+  dinner.map((item, index) => {
     var infowindow = new google.maps.InfoWindow({
       content: createInfoWindow(item),
       maxWidth: 300
@@ -521,7 +586,7 @@ function initial( arr ){
       infowindow.open(map, marker)
     })
   })
-  userdata.hotel.map((item, index) => {
+  hotel.map((item, index) => {
     var infowindow = new google.maps.InfoWindow({
       content: createInfoWindow(item),
       maxWidth: 300
@@ -546,26 +611,39 @@ function initial( arr ){
     navigator.geolocation.getCurrentPosition(complete, error)
   }
   function complete(position) {
-    alert('success')
-    // pos = {
-    //   lat: position.coords.latitude,
-    //   lng: position.coords.longitude
-    // }
-    // map.setCenter(pos)
-    // var myloc = new google.maps.Marker({
-    //   clickable: false,
-    //   icon: new google.maps.MarkerImage('//maps.gstatic.com/mapfiles/mobile/mobileimgs2.png',
-    //                                                   new google.maps.Size(22,22),
-    //                                                   new google.maps.Point(0,18),
-    //                                                   new google.maps.Point(11,11)),
-    //   shadow: null,
-    //   position: pos,
-    //   zIndex: 999,
-    //   map: map
-    // })  
+    pos = null
+    pos = {
+      lat: position.coords.latitude,
+      lng: position.coords.longitude
+    }
+    console.log(pos)
+    map.setCenter(pos)
+    var myloc = new google.maps.Marker({
+      clickable: false,
+      icon: new google.maps.MarkerImage('//maps.gstatic.com/mapfiles/mobile/mobileimgs2.png',
+                                                      new google.maps.Size(22,22),
+                                                      new google.maps.Point(0,18),
+                                                      new google.maps.Point(11,11)),
+      shadow: null,
+      position: pos,
+      zIndex: 999,
+      map: map
+    })  
   }
   function error(){
-    alert('error')
+    swal({
+      title: "定位失败!",
+      text: "请检查网络环境或点击刷新页面!",
+      type: "warning",
+      showCancelButton: false,
+      confirmButtonColor: "#DD6B55",
+      confirmButtonText: "点击刷新!",
+      closeOnConfirm: false
+    },
+    function(){
+      swal("Deleted!", "Your imaginary file has been deleted.", "success")
+      history.go(0) 
+    })
   }
 
   $('.list-group').delegate('a', 'click', function(e) {
@@ -590,8 +668,4 @@ function initial( arr ){
     console.log(e.target.innerHTML)
   })
 
-}
-
-window.onload = function() {
-  $.get('/api/admin/get', (data) => initial(data.data))
 }
