@@ -7,6 +7,10 @@ exports.index = function*(next){
 	yield this.render('index', {})
 }
 
+exports.edit = function*(next){
+	yield this.render('edit/index', {})
+}
+
 exports.post = function*(next){
 	let _route = null
 	let route = null
