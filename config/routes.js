@@ -10,7 +10,9 @@ module.exports = function() {
 	})
 
 	router.get('/', Index.index)
+
 	router.post('/admin/post', Index.post)
+	router.post('/admin/save', Index.save)
 	router.get('/admin/get', Index.get)
 
 	return router

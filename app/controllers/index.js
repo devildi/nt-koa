@@ -42,3 +42,21 @@ exports.get = function*(next){
 		data: routes
 	}
 }
+
+exports.save = function*(next){
+	let route = null
+	let arrs = this.request.body.cache
+	let Parr = []
+	let Parr1 = []
+	let dataArr = []
+	arrs.map((r, i) => {
+		Parr.push(Route.find({user: r.user, indexOfDay: r.indexOfDay}))
+	})
+	let data = yield Promise.all(Parr)
+	data.map((r, i) => {dataArr.push(r[0])})
+	dataArr.map((r, i) => {
+		r.route = arrs[i].route
+		Parr1.push(r.save())
+	})
+	this.body = yield Promise.all(Parr1)
+}

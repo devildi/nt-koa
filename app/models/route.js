@@ -13,11 +13,11 @@ RouteSchema.pre('save', function(next) {
 })
 
 RouteSchema.statics = {
-	fetch: function(cb) {
+	fetch: function(str1, str2, cb) {
 		return this
-			.find({completedorNot: 1})
-      .populate('user')
-      .sort({'meta.updateAt':-1})
+			.find({user: str1})
+			.find({indexOfDay: str2})
+     // .populate('user')
       .exec(cb)
 	}
 }
