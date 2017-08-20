@@ -42,6 +42,7 @@ exports.get = function*(next){
 	} else {
 		routes = yield Route.find({user: name, indexOfDay: indexOfDay}).exec()
 	}
+	console.log(routes)
 	this.body = {
 		data: routes
 	}

@@ -414,6 +414,7 @@ function initial(arr){
       //步行路线
       pA.onclick = function(){
         directionsService.route({
+          //origin: pos,
           origin: {lat: 48.828973, lng: 2.2982042},
           destination: title.location,
           travelMode: 'WALKING'
@@ -429,6 +430,7 @@ function initial(arr){
       //公交路线
       pB.onclick = function(){
         directionsService.route({
+          //origin: pos,
           origin: {lat: 48.828973, lng: 2.2982042},
           destination: title.location,
           travelMode: 'TRANSIT'
