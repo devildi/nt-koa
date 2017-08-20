@@ -27,6 +27,13 @@ var node = function(arr){
   }
   return string
 }
+
+document.onreadystatechange = function(){
+  if(document.readyState === 'complete'){
+    $('.loading').fadeOut()
+  }
+}
+
 window.onload = function() {
   $('.wel_top1_left').on('click', () => {history.go(0)})
   if(window.localStorage.getItem("userData")){
@@ -375,8 +382,10 @@ function initial(arr){
 
       var titleD = document.createElement("div")
       var topC = document.createElement("p")
+      var topD = document.createElement("p")
       topC.innerHTML = title.des
       titleD.appendChild(topC)
+      titleD.appendChild(topD)
 
       var middle = document.createElement("div")
       
@@ -411,7 +420,7 @@ function initial(arr){
         }, function(response, status) {
           if (status === 'OK') {
             directionsDisplay.setDirections(response)
-            topC.innerHTML = '需步行'+response.routes[0].legs[0].distance.text +'/大约用时'+ response.routes[0].legs[0].duration.text
+            topD.innerHTML = '需步行'+response.routes[0].legs[0].distance.text +'/大约用时'+ response.routes[0].legs[0].duration.text
           } else {
             window.alert('Directions request failed due to ' + status);
           }
@@ -426,7 +435,7 @@ function initial(arr){
         }, function(response, status) {
           if (status === 'OK') {
             directionsDisplay.setDirections(response)
-            topC.innerHTML = '距离'+response.routes[0].legs[0].distance.text +'/大约用时'+ response.routes[0].legs[0].duration.text
+            topD.innerHTML = '距离'+response.routes[0].legs[0].distance.text +'/大约用时'+ response.routes[0].legs[0].duration.text
           } else {
             window.alert('Directions request failed due to ' + status);
           }
