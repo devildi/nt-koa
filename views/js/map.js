@@ -38,7 +38,10 @@ window.onload = function() {
   $('.wel_top1_left').on('click', () => {history.go(0)})
   if(window.localStorage.getItem("userData")){
     userData = window.localStorage.getItem("userData")
-    $.get('/api/admin/get', {name: userData}, (data) => initial(data.data))
+    $.get('/api/admin/get', {name: userData}, (data) => {
+      if(data.length > 0){initial(data.data)}
+      else {swal("您暂无定制数据！")}
+    })
   } else {
     $('#myModal').modal({keyboard: false,backdrop: 'static',show: true})
     $('.submit').on('click', (e) => submit(e))
@@ -414,7 +417,6 @@ function initial(arr){
       //步行路线
       pA.onclick = function(){
         directionsService.route({
-          //origin: pos,
           origin: {lat: 48.828973, lng: 2.2982042},
           destination: title.location,
           travelMode: 'WALKING'
@@ -430,7 +432,6 @@ function initial(arr){
       //公交路线
       pB.onclick = function(){
         directionsService.route({
-          //origin: pos,
           origin: {lat: 48.828973, lng: 2.2982042},
           destination: title.location,
           travelMode: 'TRANSIT'
