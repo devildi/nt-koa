@@ -39,7 +39,7 @@ window.onload = function() {
   if(window.localStorage.getItem("userData")){
     userData = window.localStorage.getItem("userData")
     $.get('/api/admin/get', {name: userData}, (data) => {
-      if(data.length > 0){initial(data.data)}
+      if(data.data.length > 0){initial(data.data)}
       else {swal("您暂无定制数据！")}
     })
   } else {
@@ -108,8 +108,8 @@ function initial(arr){
   var directionsService = new google.maps.DirectionsService;
   var directionsDisplay = new google.maps.DirectionsRenderer
   map = new google.maps.Map(document.getElementById('map'), {
-      center: {lat: 48.828973, lng: 2.2982042},
-      zoom: 13,
+      center: {lat: 48.85885895, lng: 2.3470599},
+      zoom: 15,
       streetViewControl: false,
       styles: [
         {
@@ -416,8 +416,9 @@ function initial(arr){
       middle.appendChild(pBus)
       //步行路线
       pA.onclick = function(){
+        if(pos){
         directionsService.route({
-          origin: {lat: 48.828973, lng: 2.2982042},
+          origin: pos,
           destination: title.location,
           travelMode: 'WALKING'
         }, function(response, status) {
@@ -425,24 +426,31 @@ function initial(arr){
             directionsDisplay.setDirections(response)
             topD.innerHTML = '需步行'+response.routes[0].legs[0].distance.text +'/大约用时'+ response.routes[0].legs[0].duration.text
           } else {
-            window.alert('Directions request failed due to ' + status);
+            swal("当前无路线信息!")
           }
         })
+        } else{
+          swal("本次定位已完成!")
+        }
       }
       //公交路线
       pB.onclick = function(){
-        directionsService.route({
-          origin: {lat: 48.828973, lng: 2.2982042},
-          destination: title.location,
-          travelMode: 'TRANSIT'
-        }, function(response, status) {
-          if (status === 'OK') {
-            directionsDisplay.setDirections(response)
-            topD.innerHTML = '距离'+response.routes[0].legs[0].distance.text +'/大约用时'+ response.routes[0].legs[0].duration.text
-          } else {
-            window.alert('Directions request failed due to ' + status);
-          }
-        })
+        if(pos){
+            directionsService.route({
+            origin: pos,
+            destination: title.location,
+            travelMode: 'TRANSIT'
+          }, function(response, status) {
+            if (status === 'OK') {
+              directionsDisplay.setDirections(response)
+              topD.innerHTML = '距离'+response.routes[0].legs[0].distance.text +'/大约用时'+ response.routes[0].legs[0].duration.text
+            } else {
+              swal("当前无路线信息!")
+            }
+          })
+        } else {
+          swal("正在定位中，请稍后!")
+        }
       }
       info.appendChild(top)
       info.appendChild(titleD)
@@ -522,7 +530,7 @@ function initial(arr){
       lat: position.coords.latitude,
       lng: position.coords.longitude
     }
-    map.setCenter(pos)
+    //map.setCenter(pos)
     if(myloc){
       myloc.setMap(null)
       myloc = null
@@ -573,6 +581,6 @@ function initial(arr){
   })
 
   $('.panel-title').delegate('a', 'click', function(e) {
-    console.log(e.target.innerHTML)
+    //console.log(e.target.innerHTML)
   })
 }
