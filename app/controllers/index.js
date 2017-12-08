@@ -2,8 +2,12 @@
 
 const mongoose = require('mongoose')
 const Route = mongoose.model('Route')
+const axios = require('axios')
 
 exports.index = function*(next){
+	let ip = this.request.ip
+	console.log(ip)
+	
 	yield this.render('index', {})
 }
 
@@ -42,7 +46,7 @@ exports.get = function*(next){
 	} else {
 		routes = yield Route.find({user: name, indexOfDay: indexOfDay}).exec()
 	}
-	console.log(routes)
+	//console.log(routes)
 	this.body = {
 		data: routes
 	}
