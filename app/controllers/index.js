@@ -2,13 +2,29 @@
 
 const mongoose = require('mongoose')
 const Route = mongoose.model('Route')
-const axios = require('axios')
-
+var rp = require('request-promise')
 exports.index = function*(next){
-	let ip = this.request.ip
-	console.log(ip)
-	
+	const that =this
+	yield rp('http://api.ip138.com/query/?token=0f0ab4f9ed7bf159be46e875be6a3479')
+  .then(function (res) {
+    let data = JSON.parse(res).data[0]
+    if( data === '中国'){
+      that.redirect('api/gaode')
+    } else{
+    	that.redirect('api/google')
+    }
+  })
+  .catch(function (err) {
+    console.log(err)
+  })
+}
+
+exports.google = function*(next){
 	yield this.render('index', {})
+}
+
+exports.gaode = function*(next){
+	yield this.render('gaode/index', {})
 }
 
 exports.edit = function*(next){
@@ -46,7 +62,6 @@ exports.get = function*(next){
 	} else {
 		routes = yield Route.find({user: name, indexOfDay: indexOfDay}).exec()
 	}
-	//console.log(routes)
 	this.body = {
 		data: routes
 	}

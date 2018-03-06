@@ -5,16 +5,17 @@ var Router = require('koa-router')
 var Index = require('../app/controllers/index')
 
 module.exports = function() {
-	var router = new Router({
-		prefix: '/api'
-	})
-
+	var router = new Router()
+	
 	router.get('/', Index.index)
-	router.get('/edit', Index.edit)
+	
+	router.get('/api/edit', Index.edit)
+	router.get('/api/google', Index.google)
+	router.get('/api/gaode', Index.gaode)
 
-	router.post('/admin/post', Index.post)
-	router.post('/admin/save', Index.save)
-	router.get('/admin/get', Index.get)
+	router.post('/api/admin/post', Index.post)
+	router.post('/api/admin/save', Index.save)
+	router.get('/api/admin/get', Index.get)
 
 	return router
 }

@@ -14,11 +14,14 @@
     "koa-session": "^5.4.0",
     "koa-static": "^4.0.1",
     "koa-views": "^6.0.2",
-    "mongoose": "^4.11.4"
+    "mongoose": "^4.11.4",
+    "request": "^2.83.0",
+    "request-promise": "^4.2.2"
   },
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app"
   },
   "author": "",
   "license": "ISC"
