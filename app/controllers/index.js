@@ -8,6 +8,7 @@ exports.index = function*(next){
 	yield rp('https://api.ip138.com/query/?token=0f0ab4f9ed7bf159be46e875be6a3479')
   .then(function (res) {
     let data = JSON.parse(res).data[0]
+    console.log(data)
     if( data === '中国'){
       that.redirect('api/gaode')
     } else{
