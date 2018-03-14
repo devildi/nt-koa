@@ -49,6 +49,35 @@ document.onreadystatechange = function(){
 }
 
 window.onload=function(){
+  let area = window.localStorage.getItem("area")
+  console.log(area)
+  if(area === 'china'){
+    console.log('in china')
+  } else if(area === 'abroad'){
+    console.log('in abroad')
+    window.location.href='/api/google'
+  }else {
+    swal({
+          title: "您的区域?",
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#DD6B55",
+          confirmButtonText: "中国",
+          cancelButtonText: "外国",
+          closeOnConfirm: false,
+          closeOnCancel: false
+        },
+        function(isConfirm){
+          if (isConfirm) {
+            window.localStorage.setItem('area', 'china')
+            swal("干得漂亮！", "你在中国！","success")
+          } else {
+            window.localStorage.setItem('area', 'abroad')
+            window.location.href='/api/google'
+          }
+        })
+  }
+
    
   for (var i = 0; i < userdata.play.length; i++){
     $('.panel-group').append('<div class="panel panel-default">'+
