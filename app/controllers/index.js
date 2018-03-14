@@ -5,7 +5,7 @@ const Route = mongoose.model('Route')
 var rp = require('request-promise')
 exports.index = function*(next){
 	const that =this
-	yield rp('http://api.ip138.com/query/?token=0f0ab4f9ed7bf159be46e875be6a3479')
+	yield rp('https://api.ip138.com/query/?token=0f0ab4f9ed7bf159be46e875be6a3479')
   .then(function (res) {
     let data = JSON.parse(res).data[0]
     if( data === '中国'){
