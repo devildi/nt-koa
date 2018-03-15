@@ -19,5 +19,6 @@ $(function(){
 		e.preventDefault()
 		e.stopPropagation()
 		window.localStorage.setItem('area', 'china')
+		window.location.href = '/api/gaode'
 	})
 })

@@ -14,5 +14,6 @@ $(function(){
 		e.preventDefault()
 		e.stopPropagation()
 		window.localStorage.setItem('area', 'abroad')
+		window.location.href = '/api/google'
 	})
 })
