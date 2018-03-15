@@ -55,7 +55,7 @@ window.onload=function(){
     console.log('in china')
   } else if(area === 'abroad'){
     console.log('in abroad')
-    window.location.href='/api/google'
+    window.location.href = '/api/google'
   }else {
     swal({
           title: "您的区域?",
@@ -73,7 +73,7 @@ window.onload=function(){
             swal("干得漂亮！", "你在中国！","success")
           } else {
             window.localStorage.setItem('area', 'abroad')
-            window.location.href='/api/google'
+            window.location.href = '/api/google'
           }
         })
   }

@@ -1,28 +1,28 @@
-var map
-var myloc = null
-var pos
-var userData
-var isiPhone = navigator.userAgent.toLocaleLowerCase().match(/iPhone/i)
-var thisMarker
-var point = {}
-var line = []
-var play = []
-var dinner = []
-var hotel = []
-var timer
-var continuousPositioning = false
-var playData = function(arr){
+let map
+let myloc = null
+let pos
+let userData
+let isiPhone = navigator.userAgent.toLocaleLowerCase().match(/iPhone/i)
+let thisMarker
+let point = {}
+let line = []
+let play = []
+let dinner = []
+let hotel = []
+let timer
+let continuousPositioning = false
+let playData = function(arr){
       let newarray = []
-      for (var i = 0; i < arr.length; i++){
-        for(var j = 0; j < arr[i].length; j++){
+      for (let i = 0; i < arr.length; i++){
+        for(let j = 0; j < arr[i].length; j++){
           newarray.push(arr[i][j])
         }
       }
       return newarray
     }
-var node = function(arr){
-  var string = ''
-  for (var i = 0; i < arr.length; i++){
+let node = function(arr){
+  let string = ''
+  for (let i = 0; i < arr.length; i++){
     string+='<a href="#" class="list-group-item">'+arr[i].nameOfScene+'</a>'
   }
   return string
@@ -33,7 +33,7 @@ document.onreadystatechange = function(){
     $('.loading').fadeOut()
   }
 }
-
+//加载完成
 window.onload = function() {
   $('.wel_top1_left').on('click', () => {history.go(0)})
   if(window.localStorage.getItem("userData")){
@@ -49,7 +49,7 @@ window.onload = function() {
 }
 function submit(e){
   e.preventDefault();
-  var value = $('#message-text').val().trim()
+  let value = $('#message-text').val().trim()
   if(!value){
     return swal("请输入行程编号！")
   }
@@ -66,9 +66,9 @@ function check(data, name) {
 }
 function initial(arr){
   arr.map((item, index) => {
-    var play2 = []
+    let play2 = []
     item.route.map((item, index) => {
-      var obj = JSON.parse(item.location)
+      let obj = JSON.parse(item.location)
       obj.lat = parseFloat(obj.lat)
       obj.lng = parseFloat(obj.lng)
       item.location = obj
@@ -86,7 +86,7 @@ function initial(arr){
     play.push(play2)
   })
 //初始化侧边栏
-  for (var i = 0; i < play.length; i++){
+  for (let i = 0; i < play.length; i++){
     $('.panel-group').append('<div class="panel panel-default">'+
       '<div class=panel-heading role=tab id=heading'+(i+1)+'>'+
         '<h4 class="panel-title">'+
@@ -105,8 +105,8 @@ function initial(arr){
     '</div>')
   }
 //初始化地图
-  var directionsService = new google.maps.DirectionsService;
-  var directionsDisplay = new google.maps.DirectionsRenderer
+  let directionsService = new google.maps.DirectionsService;
+  let directionsDisplay = new google.maps.DirectionsRenderer
   map = new google.maps.Map(document.getElementById('map'), {
       center: {lat: 48.85885895, lng: 2.3470599},
       zoom: 15,
@@ -329,7 +329,7 @@ function initial(arr){
     })
     directionsDisplay.setMap(map)
 
-  var centerControlDiv = document.createElement('div')
+  let centerControlDiv = document.createElement('div')
     centerControlDiv.style.width = '50px'
     centerControlDiv.style.height = '50px'
     centerControlDiv.style.borderRadius = '25px'
@@ -337,7 +337,7 @@ function initial(arr){
     centerControlDiv.style.marginBottom = '2px'
     centerControlDiv.index = 1
     centerControlDiv.className = "btn btn-danger"
-    var LCT = document.createElement('span')
+    let LCT = document.createElement('span')
     LCT.style.left = '-20px'
     LCT.style.top = '-12px'
     LCT.className = 'glyphicon glyphicon-record'
@@ -375,26 +375,26 @@ function initial(arr){
     })
     map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(centerControlDiv)
     function createInfoWindow(title) {
-      var info = document.createElement("div")
+      let info = document.createElement("div")
       info.id = "content"
 
-      var top = document.createElement("h3")
+      let top = document.createElement("h3")
       top.id = "firstHeading"
       top.className = "firstHeading"
       top.innerHTML = title.nameOfScene
 
-      var titleD = document.createElement("div")
-      var topC = document.createElement("p")
-      var topD = document.createElement("p")
+      let titleD = document.createElement("div")
+      let topC = document.createElement("p")
+      let topD = document.createElement("p")
       topC.innerHTML = title.des
       titleD.appendChild(topC)
       titleD.appendChild(topD)
 
-      var middle = document.createElement("div")
+      let middle = document.createElement("div")
       
-      var pWalk = document.createElement("p")
+      let pWalk = document.createElement("p")
       pWalk.className = "btnLeft"
-      var pA = document.createElement("a")
+      let pA = document.createElement("a")
       pA.className = "btn btn-primary"
       pA.id = "walk"
       pA.href = "#"
@@ -402,9 +402,9 @@ function initial(arr){
       pA.innerHTML = "步行"
       pWalk.appendChild(pA)
 
-      var pBus = document.createElement("p")
+      let pBus = document.createElement("p")
       pBus.className = "btnRight"
-      var pB = document.createElement("a")
+      let pB = document.createElement("a")
       pB.className = "btn btn-success"
       pB.id = "bus"
       pB.href = "#"
@@ -459,11 +459,11 @@ function initial(arr){
     }
   //初始化点
   playData(play).map(function(item, index){
-    var infowindow = new google.maps.InfoWindow({
+    let infowindow = new google.maps.InfoWindow({
       content: createInfoWindow(item),
       maxWidth: 300
     })
-    var marker = new google.maps.Marker({
+    let marker = new google.maps.Marker({
       position: item.location,
       title: item.nameOfScene,
       label: (index+1).toString(),
@@ -479,11 +479,11 @@ function initial(arr){
     })
   })
   dinner.map((item, index) => {
-    var infowindow = new google.maps.InfoWindow({
+    let infowindow = new google.maps.InfoWindow({
       content: createInfoWindow(item),
       maxWidth: 300
     })
-    var marker = new google.maps.Marker({
+    let marker = new google.maps.Marker({
       position: item.location,
       title: item.name,
       animation: google.maps.Animation.DROP,
@@ -499,11 +499,11 @@ function initial(arr){
     })
   })
   hotel.map((item, index) => {
-    var infowindow = new google.maps.InfoWindow({
+    let infowindow = new google.maps.InfoWindow({
       content: createInfoWindow(item),
       maxWidth: 300
     })
-    var marker = new google.maps.Marker({
+    let marker = new google.maps.Marker({
       position: item.location,
       title: item.nameOfScene,
       animation: google.maps.Animation.DROP,
@@ -530,7 +530,7 @@ function initial(arr){
       lat: position.coords.latitude,
       lng: position.coords.longitude
     }
-    //map.setCenter(pos)
+    map.setCenter(pos)
     if(myloc){
       myloc.setMap(null)
       myloc = null
@@ -566,7 +566,7 @@ function initial(arr){
     for( v in point){
       point[v][0].close()
     }
-    var lable = e.target.innerHTML
+    let lable = e.target.innerHTML
       for ( key in point) {
         if ( lable == key) {
           thisMarker = point[key]
@@ -576,7 +576,7 @@ function initial(arr){
         }
       }
       thisMarker[0].open(map, thisMarker[1])
-      var sidebar = $('.sidebar')
+      let sidebar = $('.sidebar')
       sidebar.css('right',-250)
   })
 
