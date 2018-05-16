@@ -4,8 +4,10 @@ const Schema = mongoose.Schema
 const RouteSchema = new Schema({
 	user: String,
 	indexOfDay: String,
+	tripName: String,
+	author: String,
 	date: Date,
-	route: Schema.Types.Mixed
+	route: []
 })
 
 RouteSchema.pre('save', function(next) {
