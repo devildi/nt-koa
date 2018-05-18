@@ -1,37 +1,11 @@
-html
-  link(rel='stylesheet', href='https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css', integrity='sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u', crossorigin='anonymous')
-  link(href='https://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.css', type='text/css', rel='stylesheet')
-  meta(name='viewport', content='width=device-width, initial-scale=1, user-scalable=no')
-  script(type='text/javascript', src='/bundle.js')
-  script(src='https://maps.googleapis.com/maps/api/js?key=AIzaSyAJHnZaO6czTIkkftjQNdtNcjL52pMxsIY', async='', defer='')
-  title Travel like A Local
+doctype html
+html(lang='en')
+  head
+    meta(charset='UTF-8', name='viewport', content='width=device-width, initial-scale=1, user-scalable=no')
+    title Document
   body
-    .loading
-    .wel_top1
-      .wel_top1_left NextSticker
-      .wel_top1_right 目的地
-      .wel_top1_right1 切换地区
-    .sidebar
-      .topbar
-        .top-left
-          span.glyphicon.glyphicon-remove(aria-hidden='true')
-        .top-centrer 详细行程
-      #accordion.panel-group(role='tablist', aria-multiselectable='true')
-    #map
-    #myModal.modal.fade(tabindex='-1', role='dialog')
-      .modal-dialog(role='document')
-        .modal-content
-          .modal-header
-            h4.modal-title 获取您的旅行数据：
-          .modal-body
-            form
-              .form-group
-                label.control-label(for='message-text') 行程编号:
-                input#message-text.form-control
-          .modal-footer
-            button.btn.btn-primary.submit(type='button') 提交
-    script(src='https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js')
-    script(src='https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js', integrity='sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa', crossorigin='anonymous')
-    script(src='https://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.js')
-    script(type='text/javascript', src='/js/map.js')
-    script(type='text/javascript', src='/js/main.js')
+    #root
+      app
+    script(type='text/javascript', src='/manifastfb662587f81587710fde.js')
+    script(type='text/javascript', src='/vendor95f0f6a31694da2c3904.js')
+    script(type='text/javascript', src='/appc541564e0e8ecc063b40.js')

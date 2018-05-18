@@ -7,7 +7,7 @@ var Index = require('../app/controllers/index')
 module.exports = function() {
 	var router = new Router()
 	
-	//router.get('/', Index.index)
+	router.get('/', Index.index)
 	
 	//router.get('/api/edit', Index.edit)
 	//router.get('/api/google', Index.google)

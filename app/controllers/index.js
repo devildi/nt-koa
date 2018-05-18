@@ -24,13 +24,9 @@ const Cat = mongoose.model('Cat')
 // 	yield this.render('index', {})
 // }
 
-// exports.gaode = function*(next){
-// 	yield this.render('gaode/index', {})
-// }
-
-// exports.edit = function*(next){
-// 	yield this.render('edit/index', {})
-// }
+ exports.index = function*(next){
+ 	yield this.render('index', {})
+}
 
 exports.post = function*(next){
 	let user = this.request.body.name
