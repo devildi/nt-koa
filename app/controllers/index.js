@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const Route = mongoose.model('Route')
 const Cat = mongoose.model('Cat')
+var cloudinary = require('cloudinary')
 //var rp = require('request-promise')
 // exports.index = function*(next){
 	// const that =this
@@ -179,4 +180,19 @@ exports.all = function*(next){
 			data: null
 		}
 	}
+}
+
+exports.upload = function*(next){
+	cloudinary.config({ 
+	  cloud_name: 'dnfhsjz8u', 
+	  api_key: '468518681239655', 
+	  api_secret: 'vzjsuIZ9Q00eRGQyjQTljRkBc18' 
+	})
+	let picURL = this.query.picURL
+	cloudinary.uploader.upload(picURL, function(result) { 
+	  console.log(result)
+	  this.body = {
+			data: result.secure_url
+		}
+	})
 }

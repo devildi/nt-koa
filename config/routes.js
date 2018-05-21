@@ -17,5 +17,6 @@ module.exports = function() {
 	router.post('/api/admin/save', Index.save)
 	router.get('/api/admin/get', Index.get)
 	router.get('/api/admin/all', Index.all)
+	router.get('/api/admin/upload', Index.upload)
 	return router
 }

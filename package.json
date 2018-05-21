@@ -6,6 +6,7 @@
   "dependencies": {
     "axios": "^0.17.0",
     "bluebird": "^3.5.0",
+    "cloudinary": "^1.11.0",
     "jade": "^1.11.0",
     "koa": "^2.3.0",
     "koa-bodyparser": "^4.2.0",
