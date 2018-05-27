@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const Route = mongoose.model('Route')
 const Cat = mongoose.model('Cat')
-var cloudinary = require('cloudinary')
+var Util = require('../../utils/util')
 //var rp = require('request-promise')
 // exports.index = function*(next){
 	// const that =this
@@ -94,6 +94,7 @@ exports.post = function*(next){
 exports.get = function*(next){
 	let name = this.query.name
 	let indexOfDay = this.query.indexOfDay
+	let from = this.query.from || ''
 	let routes = null
 	let play = []
   let play2 = []
@@ -109,10 +110,12 @@ exports.get = function*(next){
 		routes.map((item, index) => {
 			if (item.route && item.route.length > 0){
 				item.route.map((item, index) => {
-	      let obj = JSON.parse(item.location)
-	      obj.lat = parseFloat(obj.lat)
-	      obj.lng = parseFloat(obj.lng)
-	      item.location = obj
+				if(!from){
+					let obj = JSON.parse(item.location)
+		      obj.lat = parseFloat(obj.lat)
+		      obj.lng = parseFloat(obj.lng)
+		      item.location = obj
+				}
 	      //点数据分类
 	      if(item.pointOrNot === '1' && item.category === '0'){
 	        play2.push(item)
@@ -136,7 +139,6 @@ exports.get = function*(next){
 exports.save = function*(next){
 	let route = null
 	let arrs = this.request.body.cache
-	console.log('save', arrs)
 	let Parr = []
 	let Parr1 = []
 	let dataArr = []
@@ -183,16 +185,8 @@ exports.all = function*(next){
 }
 
 exports.upload = function*(next){
-	cloudinary.config({ 
-	  cloud_name: 'dnfhsjz8u', 
-	  api_key: '468518681239655', 
-	  api_secret: 'vzjsuIZ9Q00eRGQyjQTljRkBc18' 
-	})
-	let picURL = this.query.picURL
-	cloudinary.uploader.upload(picURL, function(result) { 
-	  console.log(result)
-	  this.body = {
-			data: result.secure_url
-		}
-	})
+	let result = yield Util.uploadPromise(this.query.picURL)
+	this.body = {
+		data: result.secure_url
+	}
 }
