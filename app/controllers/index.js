@@ -25,7 +25,7 @@ var Util = require('../../utils/util')
 // 	yield this.render('index', {})
 // }
 
- exports.index = function*(next){
+exports.index = function*(next){
  	yield this.render('index', {})
 }
 
