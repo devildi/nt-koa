@@ -2,11 +2,12 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const RouteSchema = new Schema({
-	user: String,
+	user: {unique: true,type: String},
 	indexOfDay: String,
 	tripName: String,
 	author: String,
 	date: Date,
+	useGoogle: String,
 	route: []
 })
 

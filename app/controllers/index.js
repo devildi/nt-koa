@@ -75,6 +75,7 @@ exports.post = function*(next){
 			author: this.request.body.author,
 			indexOfDay: indexOfDay,
 			date: this.request.body.date,
+			useGoogle: this.request.body.useGoogle,
 			route: route
 		})
 		try{
@@ -106,15 +107,20 @@ exports.get = function*(next){
 	} else {
 		routes = yield Route.find({user: name, indexOfDay: indexOfDay}).exec()
 	}
+	let isUsingGoogle = routes[0].useGoogle === '1' ? true : false
 	if(routes){
 		routes.map((item, index) => {
 			if (item.route && item.route.length > 0){
 				item.route.map((item, index) => {
 				if(!from){
-					let obj = JSON.parse(item.location)
-		      obj.lat = parseFloat(obj.lat)
-		      obj.lng = parseFloat(obj.lng)
-		      item.location = obj
+					if(isUsingGoogle){
+						let obj = JSON.parse(item.location)
+			      obj.lat = parseFloat(obj.lat)
+			      obj.lng = parseFloat(obj.lng)
+			      item.location = obj
+					} else {
+						item.location = JSON.parse(item.location)
+					}
 				}
 	      //点数据分类
 	      if(item.pointOrNot === '1' && item.category === '0'){
