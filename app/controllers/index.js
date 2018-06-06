@@ -107,8 +107,8 @@ exports.get = function*(next){
 	} else {
 		routes = yield Route.find({user: name, indexOfDay: indexOfDay}).exec()
 	}
-	let isUsingGoogle = routes[0].useGoogle === '1' ? true : false
-	if(routes){
+	if(routes && routes.length > 0){
+		let isUsingGoogle = routes[0].useGoogle === '1' ? true : false
 		routes.map((item, index) => {
 			if (item.route && item.route.length > 0){
 				item.route.map((item, index) => {
@@ -136,6 +136,7 @@ exports.get = function*(next){
 			}
 		})
 	}
+	
 	this.body = {
 		data: routes,
 		data1: play2
