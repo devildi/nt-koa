@@ -76,6 +76,7 @@ exports.post = function*(next){
 			indexOfDay: indexOfDay,
 			date: this.request.body.date,
 			useGoogle: this.request.body.useGoogle,
+			city: this.request.body.city,
 			route: route
 		})
 		try{
@@ -144,8 +145,15 @@ exports.get = function*(next){
 }
 
 exports.save = function*(next){
+	let route1 = null
 	let route = null
 	let arrs = this.request.body.cache
+	console.log(arrs)
+	route1 = yield Route.findOne({user: arrs[0].user}).exec()
+	if(route1.city !== arrs[0].city){
+		route1.city = arrs[0].city
+		route1 = yield route1.save()
+	}
 	let Parr = []
 	let Parr1 = []
 	let dataArr = []

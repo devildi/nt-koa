@@ -8,6 +8,7 @@ const RouteSchema = new Schema({
 	author: String,
 	date: Date,
 	useGoogle: String,
+	city: String,
 	route: []
 })
 

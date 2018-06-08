@@ -41,9 +41,16 @@ app.use(bodyParser())
 app.use(views(__dirname + '/views', {
   extension: 'jade'
 }))
-app.use(staticServer(__dirname + '/views'));
+app.use(staticServer(__dirname + '/views'))
 
 var router = require('./config/routes')()
+//middlemare for 404
+app.use(function*(next){  
+  yield next
+  if(parseInt(this.status) === 404){
+     this.redirect('/')
+  }
+})
 
 app
 	.use(router.routes())
