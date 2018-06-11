@@ -5,7 +5,7 @@ var path = require('path')
 var mongoose = require('mongoose')
 var views = require('koa-views')
 var staticServer = require('koa-static')
-var db = 'mongodb://devildi:41538bc6dd@localhost/nt'
+var db = 'mongodb://localhost/nt'
 
 mongoose.connect(db,{useMongoClient: true})
 mongoose.Promise = require('bluebird')
