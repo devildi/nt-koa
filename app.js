@@ -10,7 +10,7 @@ var db = 'mongodb://localhost/nt'
 mongoose.connect(db,{useMongoClient: true})
 mongoose.Promise = require('bluebird')
 
-var model_path = pzath.join(__dirname, './app/models')
+var model_path = path.join(__dirname, './app/models')
 var walk = function(modelPath){
 	fs
 		.readdirSync(modelPath)
