@@ -1,5 +1,5 @@
-sudo ./bin/mongodump -h 127.0.0.1 -d nt -o /User/apple/Desktop/nt-koa/dump/
+sudo ./bin/mongodump -h 127.0.0.1:27017 -d nt -o /User/apple/Desktop/nt-koa/database/
 
-./mongod/mongodb-linux-x86_64-amazon-3.2.7/bin/mongorestore -h 127.0.0.1 -d nt /home/ec2-user/nt-koa/dump/nt/routes.bson
+./mongod/mongodb-linux-x86_64-amazon-3.2.7/bin/mongorestore -h 127.0.0.1:27017 -d nt /home/ec2-user/nt-koa/database/nt/
 
-ssh -i "wudi.pem" ec2-user@ec2-52-77-209-24.ap-southeast-1.compute.amazonaws.com
+ssh -i "devildi.pem" ec2-user@ec2-13-124-88-25.ap-northeast-2.compute.amazonaws.com
