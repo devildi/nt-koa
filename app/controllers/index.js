@@ -103,44 +103,58 @@ exports.get = function*(next){
   let line = []
 	let dinner = []
 	let hotel = []
+	let drawer = []
+	let flag= 0
 	if(!indexOfDay){
 		routes = yield Route.find({user: name}).exec()
 	} else {
 		routes = yield Route.find({user: name, indexOfDay: indexOfDay}).exec()
-	}
+	}	
 	if(routes && routes.length > 0){
+		drawer = JSON.parse(JSON.stringify(routes))
 		let isUsingGoogle = routes[0].useGoogle === '1' ? true : false
 		routes.map((item, index) => {
 			if (item.route && item.route.length > 0){
-				item.route.map((item, index) => {
-				if(!from){
-					if(isUsingGoogle){
-						let obj = JSON.parse(item.location)
-			      obj.lat = parseFloat(obj.lat)
-			      obj.lng = parseFloat(obj.lng)
-			      item.location = obj
-					} else {
-						item.location = JSON.parse(item.location)
+				item.route.map((r, i) => {
+					if(!from){
+						if(isUsingGoogle){
+							let obj = JSON.parse(r.location)
+				      obj.lat = parseFloat(obj.lat)
+				      obj.lng = parseFloat(obj.lng)
+				      r.location = obj
+						} else {
+							r.location = JSON.parse(r.location)
+						}
 					}
-				}
-	      //点数据分类
-	      if(item.pointOrNot === '1' && item.category === '0'){
-	        play2.push(item)
-	      } else if(item.pointOrNot === '1' && item.category === '1'){
-	        dinner.push(item)
-	      } else if(item.pointOrNot === '1' && item.category === '2'){
-	        hotel.push(item)
-	      } else{
-	        line.push(item)
-	      }
-	    })
+	      	//点数据分类
+		      if(r.pointOrNot === '1' && r.category === '0'){
+		        play2.push(r)
+		      } else if(r.pointOrNot === '1' && r.category === '1'){
+		        dinner.push(r)
+		        if(!from){
+		        	drawer[index].route.splice((i - flag),1)
+		        	flag++
+		        }
+		      } else if(r.pointOrNot === '1' && r.category === '2'){
+		        hotel.push(r)
+		        if(!from){
+		        	drawer[index].route.splice((i - flag),1)
+		        	flag++
+		        }
+		      } else{
+		        line.push(r)
+		      }
+	    	})
 			}
 		})
 	}
-	
+
 	this.body = {
-		data: routes,
-		data1: play2
+		data: from ? routes : drawer,
+		//点数据
+		data1: play2,
+		dinner: dinner,
+		hotel: hotel
 	}
 }
 
@@ -148,7 +162,6 @@ exports.save = function*(next){
 	let route1 = null
 	let route = null
 	let arrs = this.request.body.cache
-	console.log(arrs)
 	route1 = yield Route.findOne({user: arrs[0].user}).exec()
 	if(route1.city !== arrs[0].city){
 		route1.city = arrs[0].city
