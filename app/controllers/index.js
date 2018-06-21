@@ -185,7 +185,7 @@ exports.save = function*(next){
 }
 
 exports.all = function*(next){
-	let name = this.query.name
+	let name = this.query.name || ''
 	let data1 = []
 	let promiseContainer = []
 	let a = yield Cat.findOne()
