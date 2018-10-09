@@ -32,7 +32,9 @@ exports.index = function*(next){
 exports.post = function*(next){
 	let user = this.request.body.name
 	let indexOfDay = this.request.body.indexOfDay
-	let route = this.request.body.cache
+  //解决[object, Object]异常
+	let route = JSON.parse(this.request.body.cache)
+
 	let route11 = yield Route.findOne({user: user}).exec()
 	if(!route11){
 		let a = null
@@ -161,7 +163,7 @@ exports.get = function*(next){
 exports.save = function*(next){
 	let route1 = null
 	let route = null
-	let arrs = this.request.body.cache
+	let arrs = JSON.parse(this.request.body.cache)
 	route1 = yield Route.findOne({user: arrs[0].user}).exec()
 	if(route1.city !== arrs[0].city){
 		route1.city = arrs[0].city

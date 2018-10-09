@@ -28,16 +28,17 @@ var walk = function(modelPath){
 walk(model_path)
 
 var koa = require('koa')
+var app = new koa()
 var logger = require('koa-logger')
 var session = require('koa-session')
 var bodyParser = require('koa-bodyparser')
 
-var app = new koa()
+
 
 app.keys = ['387694318']
 app.use(logger())
 app.use(session(app))
-app.use(bodyParser())
+app.use(bodyParser({formLimit: '1mb'}))
 app.use(views(__dirname + '/views', {
   extension: 'jade'
 }))
