@@ -39,9 +39,7 @@ app.keys = ['387694318']
 app.use(logger())
 app.use(session(app))
 app.use(bodyParser({formLimit: '1mb'}))
-app.use(views(__dirname + '/views', {
-  extension: 'jade'
-}))
+app.use(views(__dirname + '/views', {extension: 'jade'}))
 app.use(staticServer(__dirname + '/views'))
 
 var router = require('./config/routes')()
@@ -57,5 +55,5 @@ app
 	.use(router.routes())
 	.use(router.allowedMethods())
 
-app.listen(3000)
-console.log('Listening port:3000')
+app.listen(3001)
+console.log('Listening port:3001')
