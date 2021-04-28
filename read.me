@@ -3,3 +3,7 @@ sudo ./bin/mongodump -h 127.0.0.1:27017 -d nt -o /User/apple/Desktop/nt-koa/data
 ./mongod/mongodb-linux-x86_64-amazon-3.2.7/bin/mongorestore -h 127.0.0.1:27017 -d nt /home/ec2-user/nt-koa/database/nt/
 
 ssh -i "devildi.pem" ec2-user@ec2-13-124-88-25.ap-northeast-2.compute.amazonaws.com
+
+sudo ./bin/mongodump -h 127.0.0.1:27017 -d davinci -o /Users/apple/Desktop/projects/mywork_backend/database
+
+./mongodb-linux-x86_64-amazon-3.2.7/bin/mongorestore -h 127.0.0.1:27017 -d davinci /home/ec2-user/mywork_backend/database/davinci
