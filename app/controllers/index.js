@@ -2,28 +2,6 @@ const mongoose = require('mongoose')
 const Route = mongoose.model('Route')
 const Cat = mongoose.model('Cat')
 var Util = require('../../utils/util')
-//var rp = require('request-promise')
-// exports.index = function*(next){
-	// const that =this
-	// yield rp('https://api.ip138.com/query/?token=0f0ab4f9ed7bf159be46e875be6a3479')
- //  .then(function (res) {
- //    let data = JSON.parse(res).data[0]
- //    console.log(data)
- //    if( data === '中国'){
- //      that.redirect('api/gaode')
- //    } else{
- //    	that.redirect('api/google')
- //    }
- //  })
- //  .catch(function (err) {
- //    console.log(err)
- //  })
-//  this.redirect('api/gaode')
-// }
-
-// exports.google = function*(next){
-// 	yield this.render('index', {})
-// }
 
 exports.index = function*(next){
  	yield this.render('index', {})
